@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600&display=swap');
+
+.logo {
+	font-family: 'Sora', sans-serif;
+	@apply text-4xl font-semibold relative pr-10;
+}
+
+.y {
+	font-family: 'Sora', sans-serif;
+	@apply text-4xl font-semibold  -z-10 text-green-900 border-2 border-green-900 rounded-md absolute right-0 py-1 px-3;
+}

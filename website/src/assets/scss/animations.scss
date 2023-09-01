@@ -1,0 +1,30 @@
+@keyframes underline {
+	0%,
+	100% {
+		transform: scaleX(0);
+	}
+	50% {
+		transform: scaleX(1);
+	}
+}
+
+.header-text {
+	position: relative;
+	font-family: 'Sora', sans-serif;
+	@apply text-2xl font-semibold relative text-white uppercase pt-4 px-0 pb-2 my-0 mx-6;
+	text-transform: uppercase;
+
+	&::after {
+		content: '';
+		@apply absolute left-1/2 bottom-0 w-full h-px bg-white;
+		transform: translateX(-50%) scaleX(0);
+		transition: transform 250ms;
+	}
+
+	&:hover {
+		&::after {
+			transform: translateX(-50%) scaleX(1);
+		}
+	}
+}
+

@@ -1,0 +1,36 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.data-shape {
+	position: absolute;
+}
+
+.data-shape-bg-red {
+	@apply bg-red-600;
+	z-index: 1;
+	transform: skew(35deg);
+	width: 105px;
+	height: 110px;
+	top: -17px;
+	left: -31px;
+	outline: 0 none;
+}
+
+.data-shape-bg-dark-red {
+	@apply bg-red-900;
+	z-index: 1;
+	position: absolute;
+	outline: 0 none;
+	transform: skew(35deg);
+	left: -60px;
+	width: 75px;
+	height: calc(100% - 27px);
+}
+
+.data-shape-border-red {
+	@apply bg-transparent border-2 border-red-600;
+	z-index: 1;
+	transform: skew(35deg);
+}
+
