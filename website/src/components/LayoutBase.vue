@@ -1,15 +1,14 @@
 <template>
-	<div class="flex flex-col gap-2 relative">
+	<div class="flex flex-col relative">
 		<TestHeader />
-		<div class="flex-grow min-h-[80vh] mt-44 w-4/5 mx-auto">
+		<div class="flex-grow w-full">
 			<slot />
 		</div>
-		<Footer />
+		<FooterBar />
 	</div>
 </template>
 
 <script setup>
-import NavBar from '@/components/NavBar.vue';
-import Footer from '@/components/Footer.vue';
+import FooterBar from '@/components/FooterBar.vue';
 import TestHeader from './TestHeader.vue';
 </script>

@@ -1,0 +1,16 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+$dark-blue-efrei: #232c53;
+$light-blue: #c6ccee;
+$medium-blue: #556297;
+$dark-blue: #377fbc;
+.bg-dark-blue-efrei {
+	background-color: $dark-blue-efrei;
+}
+
+.dark-blue-efrei {
+	color: $dark-blue-efrei;
+}
+

@@ -8,17 +8,9 @@ const routes = [
 		component: HomePage,
 	},
 	{
-		path: '/about',
-		name: 'About',
-		component: () => import('@/views/AboutPage.vue'),
-	},
-	{
-		path: '/browse/:type',
-		component: () => import('@/views/BrowsePage.vue'),
-	},
-	{
-		path: '/browse',
-		component: () => import('@/views/BrowsePage.vue'),
+		path: '/schedule',
+		name: 'Schedule',
+		component: () => import('@/views/SchedulePage.vue'),
 	},
 	{
 		path: '/login',
@@ -29,16 +21,6 @@ const routes = [
 		path: '/register',
 		name: 'Register',
 		component: () => import('@/views/RegisterPage.vue'),
-	},
-	{
-		path: '/sell',
-		name: 'Sell',
-		component: () => import('@/views/SellPage.vue'),
-	},
-	{
-		path: '/buy/:id',
-		name: 'Buy',
-		component: () => import('@/views/BuyPage.vue'),
 	},
 ];
 

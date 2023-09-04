@@ -1,3 +1,7 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @keyframes underline {
 	0%,
 	100% {
@@ -11,7 +15,7 @@
 .header-text {
 	position: relative;
 	font-family: 'Sora', sans-serif;
-	@apply text-2xl font-semibold relative text-white uppercase pt-4 px-0 pb-2 my-0 mx-6;
+	@apply text-2xl font-semibold relative text-white uppercase pt-4 px-0 pb-2 my-0 mx-6 md:text-lg;
 	text-transform: uppercase;
 
 	&::after {
@@ -28,3 +32,111 @@
 	}
 }
 
+.header-text-sticky {
+	position: relative;
+	font-family: 'Sora', sans-serif;
+	@apply text-xl font-semibold relative text-white uppercase pt-4 px-0 pb-2 my-0 mx-6;
+	text-transform: uppercase;
+
+	&::after {
+		content: '';
+		@apply absolute left-1/2 bottom-0 w-full h-px bg-white;
+		transform: translateX(-50%) scaleX(0);
+		transition: transform 250ms;
+	}
+
+	&:hover {
+		&::after {
+			transform: translateX(-50%) scaleX(1);
+		}
+	}
+}
+
+// Wave SVG Animation
+
+// Define your class
+.editorial {
+	display: block;
+	width: 100%;
+	height: 60px; // Adjust the height as needed for different screen sizes
+	max-height: 60px;
+	margin: 0;
+	z-index: 5;
+	top: -40px; // Adjust this value as needed
+	position: absolute;
+	left: 0px;
+	float: left;
+
+	@media (min-width: 640px) {
+		height: 30pxs;
+		top: -10px;
+	}
+
+	@media (min-width: 768px) {
+		height: 40px;
+		top: -20px;
+	}
+
+	@media (min-width: 1024px) {
+		height: 60px; // Adjust this value as needed for XL screens
+		top: -40px; // Adjust this value as needed for XL screens
+	}
+}
+
+.parallax1 > use {
+	animation: move-forever1 10s linear infinite;
+	&:nth-child(1) {
+		animation-delay: -2s;
+	}
+}
+.parallax2 > use {
+	animation: move-forever2 8s linear infinite;
+	&:nth-child(1) {
+		animation-delay: -2s;
+	}
+}
+.parallax3 > use {
+	animation: move-forever3 6s linear infinite;
+	&:nth-child(1) {
+		animation-delay: -2s;
+	}
+}
+.parallax4 > use {
+	animation: move-forever4 4s linear infinite;
+	&:nth-child(1) {
+		animation-delay: -2s;
+	}
+}
+
+@keyframes move-forever1 {
+	0% {
+		transform: translate(85px, 0%);
+	}
+	100% {
+		transform: translate(-90px, 0%);
+	}
+}
+@keyframes move-forever2 {
+	0% {
+		transform: translate(-90px, 0%);
+	}
+	100% {
+		transform: translate(85px, 0%);
+	}
+}
+@keyframes move-forever3 {
+	0% {
+		transform: translate(85px, 0%);
+	}
+	100% {
+		transform: translate(-90px, 0%);
+	}
+}
+@keyframes move-forever4 {
+	0% {
+		transform: translate(-90px, 0%);
+	}
+	100% {
+		transform: translate(85px, 0%);
+	}
+}
