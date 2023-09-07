@@ -5,15 +5,19 @@
 			:src="imgList[currentImg]"
 		/>
 		<div
-			class="slider-titles absolute inset-x-0 inset-y-1/2 xl:max-2xl:inset-y-1/3 flex justify-center text-white xl:text-7xl md:lg:text-6xl sm:text-5xl text-3xl font-bold"
+			class="absolute inset-x-0 inset-y-1/2 xl:max-2xl:inset-y-1/3 flex justify-center"
 		>
-			EFREI BASKETBALL
+			<div class="flex flex-col slider-title">
+				<h1>EFREI BASKETBALL</h1>
+				<ChevronScroll />
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import ChevronScroll from './ChevronScroll.vue';
 
 const props = defineProps({
 	imgList: {

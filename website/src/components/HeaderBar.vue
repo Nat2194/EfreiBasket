@@ -16,12 +16,7 @@
 				src="../assets/img/logos/efreibasketlogo.svg"
 				class="object-contain lg:h-30 md:h-20 h-10"
 			/>
-			<button @click="toggleMobileMenu">
-				<img
-					src="../assets/img/icons/menu.svg"
-					class="object-contain fill-white lg:h-27 md:h-18 sm:h-9"
-				/>
-			</button>
+			<DropDownHeader />
 		</div>
 
 		<!-- Desktop Navigation -->
@@ -128,7 +123,10 @@
 </template>
 
 <script>
+import DropDownHeader from './DropDownHeader.vue';
+
 export default {
+	components: { DropDownHeader },
 	data() {
 		return {
 			isSticky: false,

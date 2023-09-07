@@ -14,3 +14,14 @@ $dark-blue: #377fbc;
 	color: $dark-blue-efrei;
 }
 
+.menu-icon:focus {
+	background-color: $medium-blue;
+}
+
+.dropdown-menu {
+	background-color: $dark-blue-efrei;
+}
+.dropdown-menu:hover {
+	background-color: $medium-blue;
+}
+

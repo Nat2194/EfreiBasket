@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col relative">
-		<TestHeader />
+		<HeaderBar />
 		<div class="flex-grow w-full">
 			<slot />
 		</div>
@@ -10,5 +10,5 @@
 
 <script setup>
 import FooterBar from '@/components/FooterBar.vue';
-import TestHeader from './TestHeader.vue';
+import HeaderBar from './HeaderBar.vue';
 </script>
