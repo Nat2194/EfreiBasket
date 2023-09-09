@@ -44,9 +44,7 @@
 			>
 				<p>Le site de ton équipe préférée</p>
 				<br />
-				<p>slslskdjbsk</p>
-				<br />
-				<p>shjss</p>
+				<p>58 rue Pasteur, 94800 Villejuif</p>
 				<div class="button-container flex-row flex-wrap mt-4">
 					<a href="https://www.instagram.com/efrei_basket">
 						<div class="glass-btn instagram-btn">

@@ -23,7 +23,7 @@
 		>
 			<!-- Médias -->
 			<a
-				href="#"
+				href="https://drive.google.com/drive/u/1/folders/1ZNng0vXwUQXp3xqbnCKuTW_xXq8B-2Xi"
 				class="flex items-center px-3 py-3 text-sm dropdown-menu capitalize transition-colors duration-300 transform text-gray-300 hover:text-white"
 			>
 				<img src="../assets/img/icons/gallery.svg" class="icon" />
@@ -32,39 +32,39 @@
 			</a>
 
 			<!-- Planning Matchs -->
-			<a
-				href="/schedule"
+			<router-link
+				to="/schedule"
 				class="flex items-center p-3 text-sm capitalize transition-colors duration-300 transform text-gray-300 dropdown-menu hover:text-white"
 			>
 				<img src="../assets/img/icons/agenda.svg" class="icon" />
 
 				<span class="mx-1">Matchs</span>
-			</a>
+			</router-link>
 
 			<!-- Classement -->
-			<a
-				href="#"
-				class="flex items-center p-3 text-sm dropdown-menu capitalize transition-colors duration-300 transform text-gray-300 hover:text-white"
+			<router-link
+				to="/"
+				class="flex items-center p-3 text-sm capitalize transition-colors duration-300 transform text-gray-300 dropdown-menu hover:text-white"
 			>
 				<img src="../assets/img/icons/medal.svg" class="icon" />
 
 				<span class="mx-1">Classement</span>
-			</a>
+			</router-link>
 
 			<!-- Entraînements -->
-			<a
-				href="#"
-				class="flex items-center p-3 text-sm dropdown-menu capitalize transition-colors duration-300 transform text-gray-300 hover:text-white"
+			<router-link
+				to="/"
+				class="flex items-center p-3 text-sm capitalize transition-colors duration-300 transform text-gray-300 dropdown-menu hover:text-white"
 			>
 				<img src="../assets/img/icons/whistle.svg" class="icon" />
 
 				<span class="mx-1">Entraînements</span>
-			</a>
+			</router-link>
 
 			<!-- Joueurs -->
-			<a
-				href="#"
-				class="flex items-center p-3 text-sm dropdown-menu capitalize transition-colors duration-300 transform text-gray-300 hover:text-white"
+			<router-link
+				to="/"
+				class="flex items-center p-3 text-sm capitalize transition-colors duration-300 transform text-gray-300 dropdown-menu hover:text-white"
 			>
 				<svg
 					class="icon"
@@ -91,7 +91,7 @@
 				</svg>
 
 				<span class="mx-1">Joueurs</span>
-			</a>
+			</router-link>
 
 			<!-- Inscription -->
 			<a

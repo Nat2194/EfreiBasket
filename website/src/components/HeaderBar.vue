@@ -41,7 +41,10 @@
 						'header-text-sticky': isSticky,
 					}"
 				>
-					<a>Médias</a>
+					<a
+						href="https://drive.google.com/drive/u/1/folders/1ZNng0vXwUQXp3xqbnCKuTW_xXq8B-2Xi"
+						>Médias</a
+					>
 				</li>
 				<li
 					:class="{
@@ -83,36 +86,6 @@
 						'header-text-sticky': isSticky,
 					}"
 				>
-					<a href="https://forms.gle/qytvKtgq35xuB5g58"
-						>Inscription</a
-					>
-				</li>
-			</ul>
-		</div>
-
-		<!-- Mobile Navigation -->
-		<div v-if="mobileMenuOpen" class="xl:max-2xl:hidden">
-			<ul class="bg-white">
-				<!-- Mobile-friendly navigation links -->
-				<li>
-					<router-link to="/">Home</router-link>
-				</li>
-				<li>
-					<router-link to="/media">Media</router-link>
-				</li>
-				<li>
-					<router-link to="/schedule">Schedule</router-link>
-				</li>
-				<li>
-					<router-link to="/ranking">Ranking</router-link>
-				</li>
-				<li>
-					<router-link to="/training">Training</router-link>
-				</li>
-				<li>
-					<router-link to="/players">Players</router-link>
-				</li>
-				<li>
 					<a href="https://forms.gle/qytvKtgq35xuB5g58"
 						>Inscription</a
 					>

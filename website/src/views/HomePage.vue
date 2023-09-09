@@ -30,6 +30,7 @@ import mobileImg2 from '@/assets/img/slider/vertical/2.jpg';
 import mobileImg3 from '@/assets/img/slider/vertical/3.jpg';
 import mobileImg4 from '@/assets/img/slider/vertical/4.jpg';
 import mobileImg5 from '@/assets/img/slider/vertical/5.jpg';
+import mobileImg6 from '@/assets/img/slider/vertical/6.jpg';
 
 // Define two sets of images: one for mobile and one for desktop
 const mobileSliderImages = [
@@ -38,6 +39,7 @@ const mobileSliderImages = [
 	mobileImg3,
 	mobileImg4,
 	mobileImg5,
+	mobileImg6,
 	// Add mobile-specific images here
 ];
 
