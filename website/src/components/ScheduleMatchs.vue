@@ -33,13 +33,6 @@ export default {
 			.then((response) => {
 				// Réponse réussie
 				this.schedule = response.data; // Stockez les données dans votre variable
-			})
-			.catch((error) => {
-				// Gestion des erreurs
-				console.error(
-					'Erreur lors de la récupération des données :',
-					error
-				);
 			});
 	},
 };

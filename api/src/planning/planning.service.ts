@@ -32,16 +32,13 @@ export class PlanningService {
 
 	private executePythonScript(scriptName: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			exec(
-				`python ./src/python/${scriptName}`,
-				(error, stdout, stderr) => {
-					if (error) {
-						reject(error);
-					} else {
-						resolve();
-					}
-				},
-			);
+			exec(`python ./src/python/${scriptName}`, (error) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve();
+				}
+			});
 		});
 	}
 }
