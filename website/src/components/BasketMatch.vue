@@ -8,7 +8,9 @@
 		}"
 	>
 		<div class="flex flex-col items-center">
-			<div class="mb-2 font-semibold text-lg">{{ game.Date }}</div>
+			<div class="mb-2 font-semibold text-lg">
+				{{ formatDate(game.Date) }}
+			</div>
 			<div class="mb-2">
 				<span class="font-semibold">{{ game['Équipe 1'] }}</span>
 				<span class="mx-2">vs</span>
@@ -69,6 +71,17 @@ export default {
 				}
 			}
 			return ''; // Si le match n'a pas été joué
+		},
+		formatDate(dateString) {
+			// Convertir la chaîne de date en objet Date
+			const dateObject = new Date(dateString);
+
+			// Formater la date selon vos besoins (par exemple, au format 'dd/mm/yyyy')
+			const formattedDate = `${dateObject.getDate()}/${
+				dateObject.getMonth() + 1
+			}/${dateObject.getFullYear()}`;
+
+			return formattedDate;
 		},
 	},
 };
