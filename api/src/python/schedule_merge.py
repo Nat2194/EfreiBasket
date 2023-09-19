@@ -20,7 +20,7 @@ resultats_efrei_paris_path = os.path.normpath(resultats_efrei_paris_path)
 planning_efrei_paris_path = os.path.normpath(planning_efrei_paris_path)
 
 # Relative path of the output file
-output_path =  os.path.join(script_dir, "..", "data" ,"planning.json")
+output_path =  os.path.join(script_dir, "..", "data" ,"schedule.json")
 
 # Absolute path of the output file
 output_path = os.path.normpath(output_path)

@@ -53,7 +53,9 @@
 			>
 				Register
 			</button>
-			<div class="flex justify-center items-center text-sm text-gray-500 gap-2">
+			<div
+				class="flex justify-center items-center text-sm text-gray-500 gap-2"
+			>
 				<router-link class="" to="/"> Home </router-link>|
 				<router-link class="" to="/login"> Log in </router-link>
 			</div>

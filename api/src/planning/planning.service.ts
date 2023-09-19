@@ -9,22 +9,19 @@ import { Planning } from '../types/planning.interface';
 export class PlanningService {
 	async getPlanning(): Promise<Planning> {
 		try {
-			// Exécuter le script Python "scraper.py"
-			// await this.executePythonScript('scraper.py');
-
-			// Exécuter le script Python "planning.py"
-			// await this.executePythonScript('planning_merge.py');
-
-			// Lire le fichier JSON résultant
-			const jsonData = await readFile(
-				'./src/data/planning.json',
+			const practiceJson = await readFile(
+				'./src/data/planning_practices.json',
 				'utf-8',
 			);
+			const practiceData = JSON.parse(practiceJson);
 
-			// Parser le JSON en tant qu'objet JavaScript
-			const planningData = JSON.parse(jsonData);
+			/*const gameJson = await readFile(
+				'./src/data/planning_games.json',
+				'utf-8',
+			);
+			const gameData = JSON.parse(gameJson);*/
 
-			return planningData;
+			return practiceData;
 		} catch (error) {
 			throw new Error(`Une erreur est survenue : ${error.message}`);
 		}

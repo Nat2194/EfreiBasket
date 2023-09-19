@@ -25,7 +25,9 @@
 				Login
 			</button>
 
-			<div class="flex justify-center items-center text-sm text-gray-500 gap-2">
+			<div
+				class="flex justify-center items-center text-sm text-gray-500 gap-2"
+			>
 				<router-link class="" to="/"> Home </router-link>|
 				<router-link class="" to="/register"> Register </router-link>
 			</div>
@@ -37,25 +39,18 @@
 import InputBase from '@/components/InputBase.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUsersStore } from '../stores/users.store';
+import { useAuthStore } from '@/stores/auth.store';
 
 const email = ref('');
 const password = ref('');
 const msg = ref('');
 
 const router = useRouter();
-const usersStore = useUsersStore();
+const authStore = useAuthStore();
 
 const login = async () => {
 	msg.value = '';
-	if (
-		(
-			await usersStore.login({
-				email: email.value,
-				password: password.value,
-			})
-		).status === 200
-	) {
+	if ((await authStore.login(email.value, password.value)).status === 200) {
 		router.push('/');
 	} else {
 		msg.value = 'Invalid email or password';

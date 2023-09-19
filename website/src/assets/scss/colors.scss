@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 
 $dark-blue-efrei: #232c53;
+$very-light-grey: #fafafa;
 $light-blue: #c6ccee;
 $medium-blue: #556297;
 $dark-blue: #377fbc;
@@ -25,3 +26,6 @@ $dark-blue: #377fbc;
 	background-color: $medium-blue;
 }
 
+.bg-very-light-grey {
+	background-color: $very-light-grey;
+}

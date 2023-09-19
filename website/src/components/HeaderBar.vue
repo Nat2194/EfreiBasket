@@ -12,10 +12,12 @@
 		<div
 			class="xl:max-2xl:hidden px-4 py-2 bg-dark-blue-efrei flex flex-row justify-between"
 		>
-			<img
-				src="../assets/img/logos/efreibasketlogo.svg"
-				class="object-contain lg:h-30 md:h-20 h-10"
-			/>
+			<router-link to="/">
+				<img
+					src="../assets/img/logos/efreibasketlogo.svg"
+					class="object-contain lg:h-30 md:h-20 h-10"
+				/>
+			</router-link>
 			<DropDownHeader />
 		</div>
 
@@ -70,7 +72,9 @@
 						'header-text-sticky': isSticky,
 					}"
 				>
-					<a>Entraînements</a>
+					<router-link to="/planning">
+						<a>Entraînements</a>
+					</router-link>
 				</li>
 				<li
 					:class="{

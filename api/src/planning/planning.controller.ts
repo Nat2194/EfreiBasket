@@ -4,7 +4,7 @@ import { Controller, Get } from '@nestjs/common';
 import { Planning } from '../types/planning.interface';
 import { PlanningService } from './planning.service';
 
-@Controller('schedule')
+@Controller('planning')
 export class PlanningController {
 	constructor(private readonly planningService: PlanningService) {}
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="container mt-32 mb-10 mx-auto">
+	<div class="container mx-auto mt-5 mb-10">
 		<h1 class="text-2xl font-semibold mb-4">
 			Planning des matchs de l'équipe 1
 		</h1>

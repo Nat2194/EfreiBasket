@@ -1,5 +1,5 @@
 <template>
-	<div class="relative">
+	<div class="relative -mt-24">
 		<img
 			class="w-full object-cover brightness-50"
 			:src="imgList[currentImg]"
