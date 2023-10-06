@@ -19,7 +19,7 @@
 			</div>
 
 			<button
-				class="bg-green-900 w-full text-white px-4 py-2 rounded-md"
+				class="bg-dark-blue-efrei w-full text-white px-4 py-2 rounded-md"
 				@click="login"
 			>
 				Login
@@ -28,8 +28,7 @@
 			<div
 				class="flex justify-center items-center text-sm text-gray-500 gap-2"
 			>
-				<router-link class="" to="/"> Home </router-link>|
-				<router-link class="" to="/register"> Register </router-link>
+				<router-link to="/"> Home </router-link>
 			</div>
 		</div>
 	</div>
@@ -51,7 +50,7 @@ const authStore = useAuthStore();
 const login = async () => {
 	msg.value = '';
 	if ((await authStore.login(email.value, password.value)).status === 200) {
-		router.push('/');
+		router.push('/accounts');
 	} else {
 		msg.value = 'Invalid email or password';
 	}

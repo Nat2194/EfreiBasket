@@ -1,4 +1,5 @@
 import {
+	IsDate,
 	IsEmail,
 	IsNotEmpty,
 	IsOptional,
@@ -31,4 +32,9 @@ export class UpdateUserDto {
 	@MaxLength(50)
 	@IsOptional()
 	readonly lastname?: string;
+
+	@IsDate()
+	@IsNotEmpty()
+	@IsOptional()
+	readonly lastLogin?: number;
 }

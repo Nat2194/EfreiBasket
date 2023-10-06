@@ -20,13 +20,16 @@ export class AuthService {
 
 	public async login(user: User): Promise<IResponseToken> {
 		const loginDate = dayjs();
-		await this.userService.update(user.userId, {
+		await this.userService.update({
+			mail: user.mail,
 			lastLogin: loginDate.unix(),
 		} as UpdateUserDto);
 
+		console.log(await this.userService.findByMail(user.mail));
+
 		return {
 			accessToken: await this.sign(
-				{ sub: user.userId },
+				{ sub: user.mail },
 				this.getOptions('access'),
 				loginDate.unix(),
 			),
@@ -34,7 +37,7 @@ export class AuthService {
 				.add(config.get('jwt.accessTokenExpirationTime'), 's')
 				.unix(),
 			refreshToken: await this.sign(
-				{ sub: user.userId },
+				{ sub: user.mail },
 				this.getOptions('refresh'),
 				loginDate.unix(),
 			),
@@ -47,13 +50,9 @@ export class AuthService {
 	public async validateUser(dto: LoginDto): Promise<User> {
 		const user = await this.userService.findByMail(dto.mail);
 
-		console.log('validating');
-
 		if (user === null || user === undefined) {
 			throw new UnauthorizedException('Invalid credentials');
 		}
-		console.log(dto.password);
-		console.log(await user.comparePassword(dto.password));
 		if (!(await user.comparePassword(dto.password))) {
 			throw new UnauthorizedException('Invalid credentials');
 		}
@@ -94,7 +93,8 @@ export class AuthService {
 				throw null;
 			}
 
-			await this.userService.update(token.sub, {
+			await this.userService.update({
+				mail: token.sub,
 				lastLogin: loginDate.unix(),
 			} as UpdateUserDto);
 

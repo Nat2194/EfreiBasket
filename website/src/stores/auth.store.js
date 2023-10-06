@@ -52,6 +52,59 @@ export const useAuthStore = defineStore('auth', {
 
 			return false;
 		},
+		async createUser(userData) {
+			// Envoyez la requête de création d'utilisateur à l'API
+			const response = await $axios.post('/user', userData, {
+				requiresAuth: true,
+			});
+			// Mettez à jour le résultat ou effectuez d'autres actions si nécessaire
+			return response.data;
+		},
+
+		async readUser(searchData) {
+			try {
+				// Envoyez la requête de lecture d'utilisateur à l'API avec les paramètres de recherche
+				const response = await $axios.get('/user', {
+					params: searchData,
+					requiresAuth: true,
+				});
+				// Mettez à jour le résultat ou effectuez d'autres actions si nécessaire
+				return response.data;
+			} catch (error) {
+				throw new Error('Error reading user: ' + error.message);
+			}
+		},
+
+		async updateUser(dto) {
+			try {
+				const response = await $axios.patch('/user', dto, {
+					requiresAuth: true, // Assurez-vous que cette requête nécessite une authentification si nécessaire
+				});
+				if (response.status === 404) {
+					throw new Error('User not found');
+				}
+				return response.data;
+			} catch (error) {
+				throw new Error('Error updating user: ' + error.message);
+			}
+		},
+
+		async deleteUser(mail) {
+			try {
+				const response = await $axios.delete('/user', {
+					data: { mail }, // Utilisez l'objet data pour envoyer les données au format JSON
+					requiresAuth: true,
+				});
+
+				if (response.status === 404) {
+					throw new Error('User not found');
+				}
+
+				return response;
+			} catch (error) {
+				throw new Error('Error deleting user: ' + error.message);
+			}
+		},
 	},
 	getters: {},
 });

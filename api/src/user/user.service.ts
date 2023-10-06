@@ -1,8 +1,4 @@
-import {
-	Injectable,
-	NotFoundException,
-	ConflictException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './user.entity';
 import * as fs from 'fs';
@@ -21,7 +17,6 @@ export class UserService {
 		if (!fs.existsSync(this.filePath)) {
 			// If the file doesn't exist, create it and return an empty array
 			this.writeFile([]);
-			console.log('creating file');
 			return [];
 		}
 		try {
@@ -48,15 +43,12 @@ export class UserService {
 
 			return userData;
 		} catch (error) {
-			console.error('Error reading and decrypting file:', error);
 			throw error;
 		}
 	}
 
 	private async writeFile(data: User[]): Promise<void> {
 		const encryptedData = JSON.stringify(data);
-		console.log('encrypting key: ', this.encryptionKey);
-		console.log('encrypting IV: ', this.iv);
 
 		const cipher = crypto.createCipheriv(
 			'aes-256-cbc',
@@ -73,14 +65,14 @@ export class UserService {
 		try {
 			fs.writeFileSync(this.filePath, encryptedFile);
 		} catch (error) {
-			console.error('Error writing file:', error);
+			//console.error('Error writing file:', error);
 		}
 	}
 
 	public async createUser(dto: CreateUserDto): Promise<User> {
 		const users = await this.readFile();
 		if (users.some((user) => user.mail === dto.mail)) {
-			throw new ConflictException('Email already used');
+			return null;
 		}
 		const newUser = new User(
 			Math.max(...users.map((user) => user.userId), 0) + 1,
@@ -97,61 +89,104 @@ export class UserService {
 		return this.readFile();
 	}
 
-	public async findOne(userId: number): Promise<User> {
+	public async findOne(mail: string): Promise<User> {
 		const users = await this.readFile();
-		const user = users.find((u) => u.userId === userId);
+		const user = users.find((u) => u.mail === mail);
 		if (!user) {
-			throw new NotFoundException('User not found');
+			return null;
 		}
 		return user;
 	}
 
-	public async update(userId: number, dto: UpdateUserDto): Promise<User> {
+	public async findUsers(searchData: Partial<User>): Promise<User[]> {
 		const users = await this.readFile();
-		const index = users.findIndex((u) => u.userId === userId);
+
+		// Filtrer les utilisateurs en fonction des critères de recherche
+		const filteredUsers = users.filter((user) => {
+			console.log(searchData.mail);
+			if (
+				searchData.mail !== undefined &&
+				user.mail !== searchData.mail
+			) {
+				console.log('mail non défini');
+				return false;
+			}
+			if (
+				searchData.lastname !== undefined &&
+				user.lastname !== searchData.lastname
+			) {
+				return false;
+			}
+			if (
+				searchData.firstname !== undefined &&
+				user.firstname !== searchData.firstname
+			) {
+				return false;
+			}
+			return true;
+		});
+
+		return filteredUsers;
+	}
+
+	public async update(dto: UpdateUserDto): Promise<User> {
+		const users = await this.readFile();
+		const index = users.findIndex((u) => u.mail === dto.mail);
 		if (index === -1) {
-			throw new NotFoundException('User not found');
+			return null;
 		}
-		if (typeof dto.password !== 'undefined') {
+
+		// Mettre à jour uniquement les attributs définis dans dto
+		if (dto.password !== undefined) {
 			await users[index].setPassword(dto.password);
 		}
-		users[index] = {
-			...users[index],
-			...dto,
-			comparePassword: users[index].comparePassword,
-			setPassword: users[index].setPassword,
-		};
+
+		if (dto.lastname !== undefined) {
+			users[index].lastname = dto.lastname;
+		}
+
+		if (dto.firstname !== undefined) {
+			users[index].firstname = dto.firstname;
+		}
+
+		if (dto.lastLogin !== undefined) {
+			users[index].lastLogin = dto.lastLogin;
+		}
+
+		// Ajoutez d'autres attributs ici selon les besoins
+
 		await this.writeFile(users);
 		return users[index];
 	}
 
-	public async delete(userId: number): Promise<void> {
+	public async delete(user: Partial<User>): Promise<boolean> {
 		const users = await this.readFile();
-		const index = users.findIndex((u) => u.userId === userId);
+		const index = users.findIndex((u) => u.mail === user.mail);
 		if (index === -1) {
-			throw new NotFoundException('User not found');
+			return false;
 		}
 		users.splice(index, 1);
 		await this.writeFile(users);
+		return true;
 	}
 
 	public async findByMail(mail: string): Promise<User | undefined> {
 		const users = await this.readFile();
-		console.log('users :' + users);
 		const user = users.find((user) => user.mail === mail);
-		console.log(mail);
-		console.log(user);
-		const userDto = {
-			firstname: user.firstname,
-			lastname: user.lastname,
-			mail: user.mail,
-			password: user.password,
-		};
-		const userObject = new User(user.userId, userDto);
+		try {
+			const userDto = {
+				firstname: user.firstname,
+				lastname: user.lastname,
+				mail: user.mail,
+				password: user.password,
+			};
+			const userObject = new User(user.userId, userDto);
 
-		userObject.comparePassword = User.prototype.comparePassword;
-		userObject.setPassword = User.prototype.setPassword;
-
-		return userObject;
+			userObject.comparePassword = User.prototype.comparePassword;
+			userObject.setPassword = User.prototype.setPassword;
+			return userObject;
+		} catch (error) {
+			return null;
+		}
 	}
 }

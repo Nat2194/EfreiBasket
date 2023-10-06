@@ -26,29 +26,34 @@ export class UserController {
 	}
 
 	@Auth()
-	@Get()
-	findAll(): Promise<User[]> {
-		return this.userService.findAll();
+	@Get() // Endpoint pour la recherche d'utilisateurs
+	read(@Body() searchData: Partial<User>): Promise<User[]> {
+		// Vérifiez si des critères de recherche sont spécifiés dans searchData
+		console.log(searchData);
+		const criteriaSpecified = Object.values(searchData).some(
+			(value) => value !== '',
+		);
+
+		console.log(criteriaSpecified);
+
+		if (criteriaSpecified) {
+			// Si des critères de recherche sont spécifiés, appelez la fonction de recherche avec ces critères
+			return this.userService.findUsers(searchData);
+		} else {
+			// Si aucun critère de recherche n'est spécifié, renvoyez tous les utilisateurs disponibles
+			return this.userService.findAll();
+		}
 	}
 
 	@Auth()
-	@Get(':id')
-	findOne(@Param('id', ParseIntPipe) userId: number): Promise<User> {
-		return this.userService.findOne(userId);
+	@Patch()
+	update(@Body() dto: UpdateUserDto): Promise<User> {
+		return this.userService.update(dto);
 	}
 
 	@Auth()
-	@Patch(':id')
-	update(
-		@Param('id', ParseIntPipe) userId: number,
-		@Body() user: UpdateUserDto,
-	): Promise<User> {
-		return this.userService.update(userId, user);
-	}
-
-	@Auth()
-	@Delete(':id')
-	delete(@Param('id', ParseIntPipe) userId: number): Promise<void> {
-		return this.userService.delete(userId);
+	@Delete()
+	delete(@Body() user: Partial<User>): Promise<boolean> {
+		return this.userService.delete(user);
 	}
 }
