@@ -15,7 +15,6 @@ export class UserModule implements OnModuleInit {
 	constructor(private readonly userService: UserService) {}
 	public async onModuleInit(): Promise<void> {
 		if ((await this.userService.findAll()).length === 0) {
-			console.log('create user');
 			this.userService.createUser({
 				firstname: config.get('admin.firstname'),
 				lastname: config.get('admin.lastname'),

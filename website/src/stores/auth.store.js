@@ -63,9 +63,13 @@ export const useAuthStore = defineStore('auth', {
 
 		async readUser(searchData) {
 			try {
-				// Envoyez la requête de lecture d'utilisateur à l'API avec les paramètres de recherche
-				const response = await $axios.get('/user', {
-					params: searchData,
+				const queryParams = new URLSearchParams(searchData).toString();
+
+				// Append the query parameters to the URL
+				const url = `/user?${queryParams}`;
+
+				// Send the GET request
+				const response = await $axios.get(url, {
 					requiresAuth: true,
 				});
 				// Mettez à jour le résultat ou effectuez d'autres actions si nécessaire

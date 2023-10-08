@@ -103,22 +103,17 @@ export class UserService {
 
 		// Filtrer les utilisateurs en fonction des critères de recherche
 		const filteredUsers = users.filter((user) => {
-			console.log(searchData.mail);
-			if (
-				searchData.mail !== undefined &&
-				user.mail !== searchData.mail
-			) {
-				console.log('mail non défini');
+			if (searchData.mail !== '' && user.mail !== searchData.mail) {
 				return false;
 			}
 			if (
-				searchData.lastname !== undefined &&
+				searchData.lastname !== '' &&
 				user.lastname !== searchData.lastname
 			) {
 				return false;
 			}
 			if (
-				searchData.firstname !== undefined &&
+				searchData.firstname !== '' &&
 				user.firstname !== searchData.firstname
 			) {
 				return false;

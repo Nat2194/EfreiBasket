@@ -7,12 +7,34 @@ $very-light-grey: #fafafa;
 $light-blue: #c6ccee;
 $medium-blue: #556297;
 $dark-blue: #377fbc;
+$bright-blue: #007bff;
+
 .bg-dark-blue-efrei {
 	background-color: $dark-blue-efrei;
 }
 
 .dark-blue-efrei {
 	color: $dark-blue-efrei;
+}
+
+.bg-dark-blue {
+	background-color: $dark-blue;
+}
+
+.bg-bright-blue {
+	background-color: $bright-blue;
+}
+
+.bg-medium-blue {
+	background-color: $medium-blue;
+}
+
+.bg-light-blue {
+	background-color: $light-blue;
+}
+
+.bg-very-light-grey {
+	background-color: $very-light-grey;
 }
 
 .menu-icon:focus {
@@ -29,3 +51,4 @@ $dark-blue: #377fbc;
 .bg-very-light-grey {
 	background-color: $very-light-grey;
 }
+

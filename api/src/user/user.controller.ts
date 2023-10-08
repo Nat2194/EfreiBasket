@@ -1,5 +1,6 @@
 import {
 	Body,
+	Query,
 	Controller,
 	Post,
 	Get,
@@ -27,14 +28,11 @@ export class UserController {
 
 	@Auth()
 	@Get() // Endpoint pour la recherche d'utilisateurs
-	read(@Body() searchData: Partial<User>): Promise<User[]> {
+	read(@Query() searchData: Partial<User>): Promise<User[]> {
 		// Vérifiez si des critères de recherche sont spécifiés dans searchData
-		console.log(searchData);
 		const criteriaSpecified = Object.values(searchData).some(
 			(value) => value !== '',
 		);
-
-		console.log(criteriaSpecified);
 
 		if (criteriaSpecified) {
 			// Si des critères de recherche sont spécifiés, appelez la fonction de recherche avec ces critères

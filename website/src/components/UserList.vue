@@ -1,15 +1,25 @@
 <template>
 	<div>
-		<h2>User List</h2>
-		<ul>
-			<li v-for="user in userList" :key="user.id">
-				<strong>Name:</strong> {{ user.firstname }} {{ user.lastname
-				}}<br />
-				<strong>Mail:</strong> {{ user.mail }}<br />
-				<strong>Last Login:</strong>
-				{{ user.lastLogin ? formatDate(user.lastLogin) : 'N/A' }}<br />
-			</li>
-		</ul>
+		<h2 class="text-2xl font-semibold mb-4">User List</h2>
+		<div class="flex flex-wrap bg-white text-black">
+			<div v-for="user in userList" :key="user.id" class="w-1/2 mb-4">
+				<div class="bg-light-blue p-4 shadow rounded-lg m-2">
+					<div class="mb-2">
+						<strong>Name:</strong> {{ user.firstname }}
+						{{ user.lastname }}
+					</div>
+					<div class="mb-2">
+						<strong>Mail:</strong> {{ user.mail }}
+					</div>
+					<div>
+						<strong>Last Login:</strong>
+						{{
+							user.lastLogin ? formatDate(user.lastLogin) : 'N/A'
+						}}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 

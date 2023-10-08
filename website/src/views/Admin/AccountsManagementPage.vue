@@ -255,6 +255,7 @@ const readUser = async () => {
 	result.value = '';
 	try {
 		// Appelez la méthode du store d'authentification pour lire un utilisateur
+		userList.value = [];
 		const response = await authStore.readUser(userData);
 		userList.value = response; // Mettez à jour la liste d'utilisateurs
 	} catch (error) {

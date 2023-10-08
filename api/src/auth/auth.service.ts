@@ -25,8 +25,6 @@ export class AuthService {
 			lastLogin: loginDate.unix(),
 		} as UpdateUserDto);
 
-		console.log(await this.userService.findByMail(user.mail));
-
 		return {
 			accessToken: await this.sign(
 				{ sub: user.mail },

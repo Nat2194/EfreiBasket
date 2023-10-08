@@ -51,9 +51,6 @@ export class AuthGuard implements CanActivate {
 		}
 
 		const user = await this.userService.findOne(payload.sub);
-		console.log(user);
-		console.log(user.lastLogin);
-		console.log(payload.iat);
 		if (user.lastLogin !== payload.iat) {
 			throw new UnauthorizedException('User already logged in');
 		}
