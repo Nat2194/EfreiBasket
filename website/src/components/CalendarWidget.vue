@@ -12,7 +12,9 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import axios from 'axios';
+import { useCalendarStore } from '@/stores/calendar.store';
+
+const calendarStore = useCalendarStore();
 
 export default defineComponent({
 	components: {
@@ -50,14 +52,9 @@ export default defineComponent({
 			},
 		};
 	},
-	mounted() {
+	async mounted() {
 		// Envoyer une requête GET vers l'API
-		axios
-			.get('/planning') // Assurez-vous que l'URL est correcte
-			.then((response) => {
-				// Réponse réussie
-				this.calendarOptions.events = response.data; // Stockez les données dans votre variable
-			});
+		this.calendarOptions.events = await calendarStore.getPlanning();
 	},
 });
 </script>

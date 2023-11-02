@@ -4,8 +4,6 @@ import {
 	Controller,
 	Post,
 	Get,
-	Param,
-	ParseIntPipe,
 	Patch,
 	Delete,
 } from '@nestjs/common';
@@ -22,8 +20,8 @@ export class UserController {
 
 	@Auth()
 	@Post()
-	create(@Body() user: CreateUserDto): Promise<User> {
-		return this.userService.createUser(user);
+	create(@Body() user: CreateUserDto, roles: string[]): Promise<User> {
+		return this.userService.createUser(user, roles);
 	}
 
 	@Auth()

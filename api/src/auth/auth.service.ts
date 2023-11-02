@@ -46,7 +46,7 @@ export class AuthService {
 	}
 
 	public async validateUser(dto: LoginDto): Promise<User> {
-		const user = await this.userService.findByMail(dto.mail);
+		const user = await this.userService.findOne(dto.mail);
 
 		if (user === null || user === undefined) {
 			throw new UnauthorizedException('Invalid credentials');

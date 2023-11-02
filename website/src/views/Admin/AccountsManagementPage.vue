@@ -1,213 +1,219 @@
 <template>
-	<div class="container mx-auto p-4">
-		<router-link to="/">
-			<img
-				src="@/assets/img/logos/efreibasketlogo.svg"
-				class="object-contain lg:h-30 md:h-20 h-10"
-			/>
-		</router-link>
-		<h1 class="text-3xl font-semibold mb-4">Gestion des Comptes Respos</h1>
+	<LayoutBase>
+		<div class="container my-auto mx-auto p-4">
+			<h1 class="text-3xl font-semibold mb-4">
+				Gestion des Comptes Respos
+			</h1>
 
-		<div class="space-x-4 mb-4">
-			<!-- Style des boutons pour changer de formulaire -->
-			<button
-				class="btn-primary"
-				:class="{ 'btn-active': activeForm === 'create' }"
-				@click="changeForm('create')"
+			<div class="space-x-4 mb-4">
+				<!-- Style des boutons pour changer de formulaire -->
+				<button
+					class="btn-primary"
+					:class="{ 'btn-active': activeForm === 'create' }"
+					@click="changeForm('create')"
+				>
+					Créer
+				</button>
+				<button
+					class="btn-primary"
+					:class="{ 'btn-active': activeForm === 'update' }"
+					@click="changeForm('update')"
+				>
+					Modifier
+				</button>
+				<button
+					class="btn-primary"
+					:class="{ 'btn-active': activeForm === 'read' }"
+					@click="changeForm('read')"
+				>
+					Chercher
+				</button>
+				<button
+					class="btn-primary"
+					:class="{ 'btn-active': activeForm === 'delete' }"
+					@click="changeForm('delete')"
+				>
+					Supprimer
+				</button>
+			</div>
+
+			<!-- Formulaire de création d'utilisateur -->
+			<form
+				v-if="activeForm === 'create'"
+				class="mb-4"
+				@submit.prevent="createUser"
 			>
-				Créer
-			</button>
-			<button
-				class="btn-primary"
-				:class="{ 'btn-active': activeForm === 'update' }"
-				@click="changeForm('update')"
+				<div class="form-group">
+					<label for="createLastName" class="block">Nom *</label>
+					<input
+						id="createLastName"
+						v-model="userData.lastname"
+						required
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="createFirstName" class="block">Prénom *</label>
+					<input
+						id="createFirstName"
+						v-model="userData.firstname"
+						required
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="createMail" class="block">Mail *</label>
+					<input
+						id="createMail"
+						v-model="userData.mail"
+						required
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="createPassword" class="block"
+						>Mot de passe *</label
+					>
+					<input
+						id="createPassword"
+						v-model="userData.password"
+						type="password"
+						required
+						class="input"
+					/>
+				</div>
+
+				<button type="submit" class="btn-primary">Valider</button>
+			</form>
+
+			<!-- Formulaire de mise à jour d'utilisateur -->
+			<form
+				v-if="activeForm === 'update'"
+				class="mb-4"
+				@submit.prevent="updateUser"
 			>
-				Modifier
-			</button>
-			<button
-				class="btn-primary"
-				:class="{ 'btn-active': activeForm === 'read' }"
-				@click="changeForm('read')"
+				<div class="form-group">
+					<label for="updateMail" class="block">Mail *</label>
+					<input
+						id="updateMail"
+						v-model="userData.mail"
+						required
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="updateLastName" class="block">Nom</label>
+					<input
+						id="updateLastName"
+						v-model="userData.lastname"
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="updateFirstName" class="block">Prénom</label>
+					<input
+						id="updateFirstName"
+						v-model="userData.firstname"
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="updatePassword" class="block"
+						>Mot de passe</label
+					>
+					<input
+						id="updatePassword"
+						v-model="userData.password"
+						type="password"
+						class="input"
+					/>
+				</div>
+
+				<button type="submit" class="btn-primary">Valider</button>
+			</form>
+
+			<!-- Formulaire de lecture d'utilisateur -->
+			<form
+				v-if="activeForm === 'read'"
+				class="mb-4"
+				@submit.prevent="readUser"
 			>
-				Chercher
-			</button>
-			<button
-				class="btn-primary"
-				:class="{ 'btn-active': activeForm === 'delete' }"
-				@click="changeForm('delete')"
+				<div class="form-group">
+					<label for="readLastName" class="block">Nom</label>
+					<input
+						id="readLastName"
+						v-model="userData.lastname"
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="readFirstName" class="block">Prénom</label>
+					<input
+						id="readFirstName"
+						v-model="userData.firstname"
+						class="input"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="readMail" class="block">Mail</label>
+					<input
+						id="readMail"
+						v-model="userData.mail"
+						class="input"
+					/>
+				</div>
+
+				<button type="submit" class="btn-primary">Chercher</button>
+			</form>
+
+			<!-- Formulaire de suppression d'utilisateur -->
+			<form
+				v-if="activeForm === 'delete'"
+				class="mb-4"
+				@submit.prevent="deleteUser"
 			>
-				Supprimer
-			</button>
+				<div class="form-group">
+					<label for="deleteMail" class="block">Mail *</label>
+					<input
+						id="deleteMail"
+						v-model="userData.mail"
+						required
+						class="input"
+					/>
+				</div>
+
+				<button type="submit" class="btn-primary">
+					Supprimer le compte
+				</button>
+			</form>
+
+			<!-- Afficher les résultats des actions -->
+			<div v-if="result" class="mb-4">
+				<div class="result-message">
+					<h2 class="text-xl font-semibold mb-2">Résultat:</h2>
+					<p>{{ result }}</p>
+				</div>
+			</div>
+
+			<!-- Liste des utilisateurs -->
+			<UserList v-if="activeForm === 'read'" :user-list="userList" />
 		</div>
-
-		<!-- Formulaire de création d'utilisateur -->
-		<form
-			v-if="activeForm === 'create'"
-			class="mb-4"
-			@submit.prevent="createUser"
-		>
-			<div class="form-group">
-				<label for="createLastName" class="block">Nom *</label>
-				<input
-					id="createLastName"
-					v-model="userData.lastname"
-					required
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="createFirstName" class="block">Prénom *</label>
-				<input
-					id="createFirstName"
-					v-model="userData.firstname"
-					required
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="createMail" class="block">Mail *</label>
-				<input
-					id="createMail"
-					v-model="userData.mail"
-					required
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="createPassword" class="block">Mot de passe *</label>
-				<input
-					id="createPassword"
-					v-model="userData.password"
-					type="password"
-					required
-					class="input"
-				/>
-			</div>
-
-			<button type="submit" class="btn-primary">Valider</button>
-		</form>
-
-		<!-- Formulaire de mise à jour d'utilisateur -->
-		<form
-			v-if="activeForm === 'update'"
-			class="mb-4"
-			@submit.prevent="updateUser"
-		>
-			<div class="form-group">
-				<label for="updateMail" class="block">Mail *</label>
-				<input
-					id="updateMail"
-					v-model="userData.mail"
-					required
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="updateLastName" class="block">Nom</label>
-				<input
-					id="updateLastName"
-					v-model="userData.lastname"
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="updateFirstName" class="block">Prénom</label>
-				<input
-					id="updateFirstName"
-					v-model="userData.firstname"
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="updatePassword" class="block">Mot de passe</label>
-				<input
-					id="updatePassword"
-					v-model="userData.password"
-					type="password"
-					class="input"
-				/>
-			</div>
-
-			<button type="submit" class="btn-primary">Valider</button>
-		</form>
-
-		<!-- Formulaire de lecture d'utilisateur -->
-		<form
-			v-if="activeForm === 'read'"
-			class="mb-4"
-			@submit.prevent="readUser"
-		>
-			<div class="form-group">
-				<label for="readLastName" class="block">Nom</label>
-				<input
-					id="readLastName"
-					v-model="userData.lastname"
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="readFirstName" class="block">Prénom</label>
-				<input
-					id="readFirstName"
-					v-model="userData.firstname"
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="readMail" class="block">Mail</label>
-				<input id="readMail" v-model="userData.mail" class="input" />
-			</div>
-
-			<button type="submit" class="btn-primary">Chercher</button>
-		</form>
-
-		<!-- Formulaire de suppression d'utilisateur -->
-		<form
-			v-if="activeForm === 'delete'"
-			class="mb-4"
-			@submit.prevent="deleteUser"
-		>
-			<div class="form-group">
-				<label for="deleteMail" class="block">Mail *</label>
-				<input
-					id="deleteMail"
-					v-model="userData.mail"
-					required
-					class="input"
-				/>
-			</div>
-
-			<button type="submit" class="btn-primary">
-				Supprimer le compte
-			</button>
-		</form>
-
-		<!-- Afficher les résultats des actions -->
-		<div v-if="result" class="mb-4">
-			<div class="result-message">
-				<h2 class="text-xl font-semibold mb-2">Résultat:</h2>
-				<p>{{ result }}</p>
-			</div>
-		</div>
-
-		<!-- Liste des utilisateurs -->
-		<UserList v-if="activeForm === 'read'" :user-list="userList" />
-	</div>
+	</LayoutBase>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
 import UserList from '@/components/UserList.vue';
-import HeaderBar from '@/components/HeaderBar.vue';
+import LayoutBase from '@/components/LayoutBase.vue';
 
 // Déclarez une variable pour stocker la liste d'utilisateurs
 const userList = ref([]);

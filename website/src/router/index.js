@@ -27,6 +27,11 @@ const routes = [
 		name: 'Accounts',
 		component: () => import('@/views/Admin/AccountsManagementPage.vue'),
 	},
+	{
+		path: '/roles',
+		name: 'Roles',
+		component: () => import('@/views/Admin/RolesManagementPage.vue'),
+	},
 ];
 
 export default createRouter({

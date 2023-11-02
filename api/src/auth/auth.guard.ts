@@ -61,7 +61,7 @@ export class AuthGuard implements CanActivate {
 		return user;
 	}
 
-	private checkClaims(context, permissions): boolean {
+	/*private checkClaims(context, permissions): boolean {
 		const claims = this.reflector.get('claims', context.handler);
 		if (claims.length === 0) {
 			return true;
@@ -69,7 +69,13 @@ export class AuthGuard implements CanActivate {
 		return Object.keys(claims).some(
 			(key) =>
 				permissions[key] === claims[key] ||
-				claims[key] === ACTIONS.MANAGE,
+				claims[key] ==
+					[
+						ACTIONS.CREATE,
+						ACTIONS.READ,
+						ACTIONS.UPDATE,
+						ACTIONS.DELETE,
+					],
 		);
-	}
+	}*/ //TODO: utilisation des permissions
 }

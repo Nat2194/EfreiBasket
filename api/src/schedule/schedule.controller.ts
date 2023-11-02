@@ -10,6 +10,7 @@ export class ScheduleController {
 
 	@Get()
 	getSchedule(): Promise<Schedule> {
+		console.log('received request');
 		return this.scheduleService.getSchedule();
 	}
 }

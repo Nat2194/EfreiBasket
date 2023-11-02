@@ -96,7 +96,7 @@ export const useAuthStore = defineStore('auth', {
 		async deleteUser(mail) {
 			try {
 				const response = await $axios.delete('/user', {
-					data: { mail }, // Utilisez l'objet data pour envoyer les données au format JSON
+					data: { mail },
 					requiresAuth: true,
 				});
 

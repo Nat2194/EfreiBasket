@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto';
-import { User } from './user.entity';
 import * as fs from 'fs';
 import * as crypto from 'crypto';
+import { CreateUserDto, UpdateUserDto } from './dto';
+import { User } from './user.entity';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
+	constructor(private readonly roleService: RoleService) {}
 	private readonly filePath: string = './src/data/users.json';
 	private readonly encryptionKey = Buffer.from(
 		'442a05fb22e2165c45cae4fca94318e6f2cd99e9a8d3d1a36da9a2115cee2805',
@@ -69,14 +71,23 @@ export class UserService {
 		}
 	}
 
-	public async createUser(dto: CreateUserDto): Promise<User> {
+	public async createUser(
+		dto: CreateUserDto,
+		roles: string[],
+	): Promise<User> {
 		const users = await this.readFile();
 		if (users.some((user) => user.mail === dto.mail)) {
 			return null;
 		}
+		const rolesToAssign = [];
+		for (const role in roles) {
+			rolesToAssign.push(await this.roleService.find(role)[0]);
+		}
+
 		const newUser = new User(
 			Math.max(...users.map((user) => user.userId), 0) + 1,
 			dto,
+			rolesToAssign,
 		);
 
 		await newUser.setPassword(dto.password);
@@ -91,10 +102,21 @@ export class UserService {
 
 	public async findOne(mail: string): Promise<User> {
 		const users = await this.readFile();
-		const user = users.find((u) => u.mail === mail);
-		if (!user) {
+		const userData = users.find((u) => u.mail === mail);
+		if (!userData) {
 			return null;
 		}
+		const user = new User(
+			userData.userId,
+			{
+				firstname: userData.firstname,
+				lastname: userData.lastname,
+				mail: userData.mail,
+				password: userData.password,
+			},
+			userData.roles,
+		);
+		user.lastLogin = userData.lastLogin;
 		return user;
 	}
 
@@ -163,25 +185,5 @@ export class UserService {
 		users.splice(index, 1);
 		await this.writeFile(users);
 		return true;
-	}
-
-	public async findByMail(mail: string): Promise<User | undefined> {
-		const users = await this.readFile();
-		const user = users.find((user) => user.mail === mail);
-		try {
-			const userDto = {
-				firstname: user.firstname,
-				lastname: user.lastname,
-				mail: user.mail,
-				password: user.password,
-			};
-			const userObject = new User(user.userId, userDto);
-
-			userObject.comparePassword = User.prototype.comparePassword;
-			userObject.setPassword = User.prototype.setPassword;
-			return userObject;
-		} catch (error) {
-			return null;
-		}
 	}
 }

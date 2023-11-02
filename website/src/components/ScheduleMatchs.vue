@@ -15,7 +15,9 @@
 
 <script>
 import BasketMatch from './BasketMatch.vue';
-import axios from 'axios';
+import { useScheduleStore } from '@/stores/schedule.store';
+
+const scheduleStore = useScheduleStore();
 
 export default {
 	components: {
@@ -26,14 +28,9 @@ export default {
 			schedule: [], // Le tableau des données du planning sera stocké ici
 		};
 	},
-	mounted() {
+	async mounted() {
 		// Envoyer une requête GET vers l'API
-		axios
-			.get('/schedule') // Assurez-vous que l'URL est correcte
-			.then((response) => {
-				// Réponse réussie
-				this.schedule = response.data; // Stockez les données dans votre variable
-			});
+		this.schedule = await scheduleStore.getSchedule();
 	},
 };
 </script>
