@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 
 // Custom imports
 import { ScheduleService } from './schedule.service';
@@ -10,7 +10,11 @@ export class ScheduleController {
 
 	@Get()
 	getSchedule(): Promise<Schedule> {
-		console.log('received request');
 		return this.scheduleService.getSchedule();
+	}
+
+	@Post()
+	reloadSchedule(): Promise<void> {
+		return this.scheduleService.reloadSchedule();
 	}
 }

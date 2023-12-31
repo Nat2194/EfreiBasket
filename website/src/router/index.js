@@ -23,14 +23,9 @@ const routes = [
 		component: () => import('@/views/LoginPage.vue'),
 	},
 	{
-		path: '/accounts',
-		name: 'Accounts',
-		component: () => import('@/views/Admin/AccountsManagementPage.vue'),
-	},
-	{
-		path: '/roles',
-		name: 'Roles',
-		component: () => import('@/views/Admin/RolesManagementPage.vue'),
+		path: '/admin',
+		name: 'Admin',
+		component: () => import('@/views/Admin/AdminPage.vue'),
 	},
 ];
 

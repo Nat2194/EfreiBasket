@@ -30,6 +30,18 @@ export class ScheduleService {
 		}
 	}
 
+	async reloadSchedule(): Promise<void> {
+		try {
+			// Exécuter le script Python "scraper.py"
+			await this.executePythonScript('scraper.py');
+
+			// Exécuter le script Python "schedule_merge.py"
+			await this.executePythonScript('schedule_merge.py');
+		} catch (error) {
+			throw new Error(`Une erreur est survenue : ${error.message}`);
+		}
+	}
+
 	private executePythonScript(scriptName: string): Promise<void> {
 		return new Promise((resolve, reject) => {
 			exec(`python ./src/python/${scriptName}`, (error) => {

@@ -10,8 +10,16 @@ export const useScheduleStore = defineStore('schedule', {
 			try {
 				// Send the GET request
 				const response = await $axios.get('/schedule');
-				// Mettez à jour le résultat ou effectuez d'autres actions si nécessaire
 				return response.data;
+			} catch (error) {
+				throw new Error('Error reading user: ' + error.message);
+			}
+		},
+
+		async reloadSchedule() {
+			try {
+				// Send the refresh request
+				await $axios.post('/schedule');
 			} catch (error) {
 				throw new Error('Error reading user: ' + error.message);
 			}

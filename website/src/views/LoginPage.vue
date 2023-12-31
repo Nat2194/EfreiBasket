@@ -50,7 +50,7 @@ const authStore = useAuthStore();
 const login = async () => {
 	msg.value = '';
 	if ((await authStore.login(email.value, password.value)).status === 200) {
-		router.push('/accounts');
+		router.push('/admin');
 	} else {
 		msg.value = 'Invalid email or password';
 	}
