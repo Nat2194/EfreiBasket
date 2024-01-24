@@ -148,6 +148,7 @@
 					class="input"
 				/>
 			</div>
+			<!-- TODO: remplacer par une fonction de recherche par nom au lieu de devoir écrire le nom exact-->
 
 			<div class="form-group">
 				<label class="block">Permissions *</label>

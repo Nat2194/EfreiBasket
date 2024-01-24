@@ -11,6 +11,8 @@
 			/>
 		</div>
 	</div>
+
+	<!-- Rajouter équipe 2 -->
 </template>
 
 <script>

@@ -1,9 +1,19 @@
 import { defineStore } from 'pinia';
 import { $axios } from '@/config/axios';
 
-export const useRoleStore = defineStore('role', {
-	state: () => {
-		return { user: null };
+export const useRoleStore = defineStore({
+	id: 'role',
+	state: () => ({
+		rolesList: [], // Stores the list of roles
+		currentRole: null, // Stores the selected role
+	}),
+	getters: {
+		getRoles() {
+			return this.rolesList;
+		},
+		getCurrentRole() {
+			return this.currentRole;
+		},
 	},
 	actions: {
 		async createRole(roleData) {
@@ -64,5 +74,4 @@ export const useRoleStore = defineStore('role', {
 			}
 		},
 	},
-	getters: {},
 });

@@ -45,11 +45,12 @@
 			</button>
 		</div>
 
-		<!-- Formulaire de création d'utilisateur -->
+		<!-- Formulaire de création d'entraînement-->
+		<!--TODO: remplacer par un form plus général pour créer différents types d'events-->
 		<form
 			v-if="activeForm === 'create'"
 			class="mb-4"
-			@submit.prevent="createUser"
+			@submit.prevent="createPractice"
 		>
 			<div class="form-group">
 				<label for="createLastName" class="block">Nom *</label>
@@ -243,25 +244,25 @@ const changeForm = (formName) => {
 };
 
 // Fonctions pour les actions (create, update, read, delete)
-const createUser = async () => {
+const createPractice = async () => {
 	result.value = '';
 	try {
-		const response = await authStore.createUser(userData);
+		const response = await scheduleStore.createPractice(practiceData);
 		if (response) {
-			result.value = 'Compté créé'; // Message de succès ou autre traitement
+			result.value = 'Entraînement créé'; // Message de succès ou autre traitement
 		} else {
-			result.value = 'Un compte utilise déjà cette adresse email'; // Message d'erreur
+			result.value = 'Un entraînement existe déjà à ce moment'; // Message d'erreur
 		}
 	} catch (error) {
-		result.value = 'Error creating user: ' + error.message;
+		result.value = 'Error creating practice: ' + error.message;
 	}
 };
 
-const readUser = async () => {
+const readPractice = async () => {
 	result.value = '';
 	try {
 		// Appelez la méthode du store d'authentification pour lire un utilisateur
-		userList.value = [];
+		practiceList.value = [];
 		const response = await authStore.readUser(userData);
 		userList.value = response; // Mettez à jour la liste d'utilisateurs
 	} catch (error) {
