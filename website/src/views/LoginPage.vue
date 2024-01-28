@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import InputBase from '@/components/InputBase.vue';
+import InputBase from '@/components/Inputs/InputBase.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';

@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength, IsDate } from 'class-validator';
 
-export class CreatePracticeDto {
+export class CreateEventDto {
 	@IsString()
 	@IsNotEmpty()
 	@MaxLength(50)

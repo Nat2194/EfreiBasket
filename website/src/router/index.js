@@ -27,6 +27,11 @@ const routes = [
 		name: 'Admin',
 		component: () => import('@/views/Admin/AdminPage.vue'),
 	},
+	{
+		path: '/players',
+		name: 'Joueurs',
+		component: () => import('@/views/InWork.vue'),
+	},
 ];
 
 export default createRouter({

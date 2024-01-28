@@ -6,7 +6,7 @@ import {
 	IsOptional,
 } from 'class-validator';
 
-export class UpdatePracticeDto {
+export class UpdateEventDto {
 	@IsString()
 	@IsNotEmpty()
 	@MaxLength(50)

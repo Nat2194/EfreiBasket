@@ -28,7 +28,7 @@
 		>
 			<router-link
 				to="/"
-				class="flex items-center gap-2 !text-black logo"
+				class="flex items-center gap-2 py-2 !text-black logo"
 			>
 				<img
 					src="@/assets/img/logos/efreibasketlogo.svg"
@@ -73,7 +73,7 @@
 					}"
 				>
 					<router-link to="/planning">
-						<a>Entraînements</a>
+						<a>Planning</a>
 					</router-link>
 				</li>
 				<li
@@ -82,7 +82,9 @@
 						'header-text-sticky': isSticky,
 					}"
 				>
-					<a>Joueurs</a>
+					<router-link to="/players">
+						<a>Joueurs</a>
+					</router-link>
 				</li>
 				<li
 					:class="{
@@ -100,7 +102,7 @@
 </template>
 
 <script>
-import DropDownHeader from './DropDownHeader.vue';
+import DropDownHeader from '@/components/DropDownHeader.vue';
 
 export default {
 	components: { DropDownHeader },

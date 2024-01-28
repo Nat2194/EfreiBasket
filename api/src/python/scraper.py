@@ -48,7 +48,6 @@ def scrape(category, team_name):
             'AssoLibelle': team_name,
             'EquLibelle': team_name,
             'SportLibelle': 'BASKET BALL',
-            'NivLibelle': 'NIVEAU 2 : GRANDES ECOLES',
         }
 
         # Entêtes de la requête

@@ -1,22 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { readFile } from 'fs/promises';
 import * as fs from 'fs';
 
 // Custom imports
-import { Practice } from './practice/practice.entity';
+import { Event } from './event/event.entity';
 import { Planning } from 'src/types/planning.interface';
-import { CreatePracticeDto } from './practice/dto';
-import { UpdatePracticeDto } from './practice/dto';
+import { CreateEventDto } from './event/dto';
+import { UpdateEventDto } from './event/dto';
 
 @Injectable()
 export class PlanningService {
-	private readonly dataFilePath = 'planning_practices.json';
+	private readonly dataFilePath = 'events.json';
 
 	async getPlanning(): Promise<Planning> {
 		try {
 			// Lire le fichier JSON résultant
 			const jsonData = await readFile(
-				'./src/data/planning_practices.json',
+				'./src/data/' + this.dataFilePath,
 				'utf-8',
 			);
 
@@ -29,61 +29,89 @@ export class PlanningService {
 		}
 	}
 
-	async getAllPractices(): Promise<Practice[]> {
+	async getAllEvents(): Promise<Event[]> {
 		const practices = await this.readData();
 		return practices;
 	}
 
-	async getPracticeById(id: number): Promise<Practice | null> {
-		const practices = await this.readData();
-		const practice = practices.find((p, index) => index === id);
-		return practice || null;
+	async getEventbyId(id: number): Promise<Event | null> {
+		const events = await this.readData();
+		const event = events.find((p) => p.id === id);
+		return event || null;
 	}
 
-	async createPractice(
-		createPracticeDto: CreatePracticeDto,
-	): Promise<Practice> {
-		const practices = await this.readData();
-		const newPractice = new Practice(createPracticeDto);
-		practices.push(newPractice);
-		await this.writeData(practices);
-		return newPractice;
+	async createEvent(createEventDto: CreateEventDto): Promise<Event> {
+		const events = await this.readData();
+		const newEvent = new Event(createEventDto);
+		newEvent.id = await this.generateUniqueId();
+		events.push(newEvent);
+		await this.writeData(events);
+		return newEvent;
 	}
 
-	async updatePractice(
+	async updateEvent(
 		id: number,
-		updatePracticeDto: UpdatePracticeDto,
-	): Promise<Practice | null> {
-		const practices = await this.readData();
-		const practice = practices.find((p, index) => index === id);
-		if (!practice) return null;
+		updateEventDto: UpdateEventDto,
+	): Promise<Event | null> {
+		const events = await this.readData();
+		console.log(events);
+		console.log(id);
+		const event = events.find((p) => p.id === id);
+		if (!event) {
+			console.log('not found');
+			return null;
+		}
 
-		practice.groupId = updatePracticeDto.groupId;
-		practice.title = updatePracticeDto.title;
-		practice.start = updatePracticeDto.start;
-		practice.end = updatePracticeDto.end;
+		event.groupId = updateEventDto.groupId;
+		event.title = updateEventDto.title;
+		event.start = updateEventDto.start;
+		event.end = updateEventDto.end;
 
-		await this.writeData(practices);
-		return practice;
+		console.log(event);
+
+		console.log(events);
+
+		await this.writeData(events);
+		return event;
 	}
 
-	async deletePractice(id: number): Promise<Practice | null> {
-		const practices = await this.readData();
-		const practiceIndex = practices.findIndex((p, index) => index === id);
+	async deleteEvent(id: number): Promise<HttpStatus> {
+		try {
+			const events = await this.readData();
+			const eventIndex = events.findIndex((p) => p.id === id);
 
-		if (practiceIndex === -1) return null;
+			console.log(id);
+			console.log(eventIndex);
 
-		const [deletedPractice] = practices.splice(practiceIndex, 1);
-		await this.writeData(practices);
-		return deletedPractice;
+			if (eventIndex === -1) return HttpStatus.NOT_FOUND;
+
+			events.splice(eventIndex, 1);
+			await this.writeData(events);
+			return HttpStatus.NO_CONTENT; // Suppression réussie
+		} catch (error) {
+			return error;
+		}
 	}
 
-	private async readData(): Promise<Practice[]> {
-		const data = fs.readFileSync(this.dataFilePath, 'utf8');
+	private async readData(): Promise<Event[]> {
+		const data = fs.readFileSync('./src/data/' + this.dataFilePath, 'utf8');
 		return JSON.parse(data);
 	}
 
-	private async writeData(data: Practice[]): Promise<void> {
-		fs.writeFileSync(this.dataFilePath, JSON.stringify(data, null, 2));
+	private async writeData(data: Event[]): Promise<void> {
+		fs.writeFileSync(
+			'./src/data/' + this.dataFilePath,
+			JSON.stringify(data, null, 2),
+		);
+	}
+
+	private async generateUniqueId(): Promise<number> {
+		// Trouver le plus grand ID existant
+		const events = await this.readData();
+		const existingIds = events.map((event) => event.id);
+		const maxId = Math.max(...existingIds, 0);
+
+		// Attribuer un nouvel ID unique
+		return maxId + 1;
 	}
 }

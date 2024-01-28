@@ -2,6 +2,8 @@
 	<div class="container my-auto mx-auto p-4">
 		<h1 class="text-3xl font-semibold mb-4">Gestion des Plannings</h1>
 
+		{{ eventData }}
+
 		<!-- Bouton carré bleu en haut à droite -->
 		<button
 			class="btn-reload absolute top-0 right-0 p-4 m-4 bg-blue-500 rounded-full text-white"
@@ -50,46 +52,48 @@
 		<form
 			v-if="activeForm === 'create'"
 			class="mb-4"
-			@submit.prevent="createPractice"
+			@submit.prevent="createEvent"
 		>
 			<div class="form-group">
-				<label for="createLastName" class="block">Nom *</label>
+				<label for="createTitle" class="block">Titre *</label>
 				<input
-					id="createLastName"
-					v-model="userData.lastname"
+					id="createTitle"
+					v-model="eventData.title"
 					required
 					class="input"
 				/>
 			</div>
 
 			<div class="form-group">
-				<label for="createFirstName" class="block">Prénom *</label>
+				<!-- TODO: boutons pour les groupId-->
+				<label for="createGroup" class="block">Groupe *</label>
 				<input
-					id="createFirstName"
-					v-model="userData.firstname"
-					required
+					id="createGroup"
+					v-model="eventData.groupId"
 					class="input"
+					required
 				/>
 			</div>
 
 			<div class="form-group">
-				<label for="createMail" class="block">Mail *</label>
+				<label for="createStart" class="block">Date de début *</label>
 				<input
-					id="createMail"
-					v-model="userData.mail"
-					required
+					id="createStart"
+					v-model="eventData.start"
+					type="datetime-local"
 					class="input"
+					required
 				/>
 			</div>
 
 			<div class="form-group">
-				<label for="createPassword" class="block">Mot de passe *</label>
+				<label for="createEnd" class="block">Date de fin *</label>
 				<input
-					id="createPassword"
-					v-model="userData.password"
-					type="password"
-					required
+					id="createEnd"
+					v-model="eventData.end"
+					type="datetime-local"
 					class="input"
+					required
 				/>
 			</div>
 
@@ -100,42 +104,47 @@
 		<form
 			v-if="activeForm === 'update'"
 			class="mb-4"
-			@submit.prevent="updateUser"
+			@submit.prevent="updateEvent"
 		>
+			<CalendarWidget
+				v-if="eventData.id == null"
+				:admin="true"
+				@event-clicked="handleEventClicked"
+			/>
 			<div class="form-group">
-				<label for="updateMail" class="block">Mail *</label>
+				<label for="updateTitle" class="block">Titre </label>
 				<input
-					id="updateMail"
-					v-model="userData.mail"
-					required
+					id="updateTitle"
+					v-model="eventData.title"
 					class="input"
 				/>
 			</div>
 
 			<div class="form-group">
-				<label for="updateLastName" class="block">Nom</label>
+				<label for="updateGroup" class="block">Groupe</label>
 				<input
-					id="updateLastName"
-					v-model="userData.lastname"
+					id="updateGroup"
+					v-model="eventData.groupId"
 					class="input"
 				/>
 			</div>
 
 			<div class="form-group">
-				<label for="updateFirstName" class="block">Prénom</label>
+				<label for="updateStart" class="block">Date de début:</label>
 				<input
-					id="updateFirstName"
-					v-model="userData.firstname"
+					id="updateStart"
+					v-model="eventData.start"
+					type="datetime-local"
 					class="input"
 				/>
 			</div>
 
 			<div class="form-group">
-				<label for="updatePassword" class="block">Mot de passe</label>
+				<label for="updateEnd" class="block">Date de fin:</label>
 				<input
-					id="updatePassword"
-					v-model="userData.password"
-					type="password"
+					id="updateEnd"
+					v-model="eventData.end"
+					type="datetime-local"
 					class="input"
 				/>
 			</div>
@@ -143,52 +152,31 @@
 			<button type="submit" class="btn-primary">Valider</button>
 		</form>
 
-		<!-- Formulaire de lecture d'utilisateur -->
-		<form
-			v-if="activeForm === 'read'"
-			class="mb-4"
-			@submit.prevent="readUser"
-		>
-			<div class="form-group">
-				<label for="readLastName" class="block">Nom</label>
-				<input
-					id="readLastName"
-					v-model="userData.lastname"
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="readFirstName" class="block">Prénom</label>
-				<input
-					id="readFirstName"
-					v-model="userData.firstname"
-					class="input"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="readMail" class="block">Mail</label>
-				<input id="readMail" v-model="userData.mail" class="input" />
-			</div>
-
-			<button type="submit" class="btn-primary">Chercher</button>
-		</form>
-
 		<!-- Formulaire de suppression d'utilisateur -->
 		<form
 			v-if="activeForm === 'delete'"
 			class="mb-4"
-			@submit.prevent="deleteUser"
+			@submit.prevent="deleteEvent"
 		>
-			<div class="form-group">
-				<label for="deleteMail" class="block">Mail *</label>
-				<input
-					id="deleteMail"
-					v-model="userData.mail"
-					required
-					class="input"
-				/>
+			<CalendarWidget
+				v-if="eventData.id == null"
+				:admin="true"
+				@event-clicked="handleEventClicked"
+			/>
+
+			<div v-if="eventData.id" class="bg-gray-100 p-4 rounded-lg mt-4">
+				<h2 class="text-lg font-semibold mb-2">
+					Evénement sélectionné :
+				</h2>
+				<ul>
+					<li><strong>ID:</strong> {{ eventData.id }}</li>
+					<li>
+						<strong>Date de début:</strong> {{ eventData.start }}
+					</li>
+					<li><strong>Date de fin:</strong> {{ eventData.end }}</li>
+					<li><strong>Titre:</strong> {{ eventData.title }}</li>
+					<li><strong>Groupe ID:</strong> {{ eventData.groupId }}</li>
+				</ul>
 			</div>
 
 			<button type="submit" class="btn-primary">
@@ -203,51 +191,53 @@
 				<p>{{ result }}</p>
 			</div>
 		</div>
-
-		<!-- Liste des utilisateurs -->
-		<UserList v-if="activeForm === 'read'" :user-list="userList" />
 	</div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { useAuthStore } from '@/stores/auth.store';
 import { useScheduleStore } from '@/stores/schedule.store';
-import UserList from '@/components/UserList.vue';
-
-// Déclarez une variable pour stocker la liste d'utilisateurs
-const userList = ref([]);
+import { useCalendarStore } from '@/stores/calendar.store';
+import CalendarWidget from '@/components/CalendarWidget.vue';
 
 const activeForm = ref('create');
 const result = ref(null);
-
-const authStore = useAuthStore();
 const scheduleStore = useScheduleStore();
+const calendarStore = useCalendarStore();
 
 // Données pour les formulaires de création, mise à jour, lecture et suppression
-const userData = {
-	lastname: '',
-	firstname: '',
-	mail: '',
-	password: '',
-};
+const eventData = ref({
+	id: null,
+	start: null,
+	end: null,
+	title: '',
+	groupId: '',
+});
 
 // Fonctions pour changer le formulaire actif
 const changeForm = (formName) => {
 	activeForm.value = formName;
 	result.value = '';
-	userData.lastname = '';
-	userData.firstname = '';
-	userData.mail = '';
-	userData.password = '';
-	userList.value = [];
+	eventData.value.id = null;
+	eventData.value.start = null;
+	eventData.value.end = null;
+	eventData.value.title = '';
+	eventData.value.groupId = '';
 };
 
 // Fonctions pour les actions (create, update, read, delete)
-const createPractice = async () => {
+const createEvent = async () => {
 	result.value = '';
+	const start = new Date(eventData.value.start);
+	start.setHours(start.getHours() + 1);
+
+	const end = new Date(eventData.value.end);
+	end.setHours(end.getHours() + 1);
+
+	eventData.value.start = start.toISOString().slice(0, 16);
+	eventData.value.end = end.toISOString().slice(0, 16);
 	try {
-		const response = await scheduleStore.createPractice(practiceData);
+		const response = await calendarStore.createEvent(eventData.value);
 		if (response) {
 			result.value = 'Entraînement créé'; // Message de succès ou autre traitement
 		} else {
@@ -258,40 +248,36 @@ const createPractice = async () => {
 	}
 };
 
-const readPractice = async () => {
+const updateEvent = async () => {
 	result.value = '';
-	try {
-		// Appelez la méthode du store d'authentification pour lire un utilisateur
-		practiceList.value = [];
-		const response = await authStore.readUser(userData);
-		userList.value = response; // Mettez à jour la liste d'utilisateurs
-	} catch (error) {
-		result.value = 'Error reading user: ' + error.message;
-	}
-};
+	const start = new Date(eventData.value.start);
+	start.setHours(start.getHours() + 1);
 
-const updateUser = async () => {
-	result.value = '';
+	const end = new Date(eventData.value.end);
+	end.setHours(end.getHours() + 1);
+
+	eventData.value.start = start.toISOString().slice(0, 16);
+	eventData.value.end = end.toISOString().slice(0, 16);
 	try {
-		const response = await authStore.updateUser(userData);
+		const response = await calendarStore.updateEvent(eventData.value);
 		if (response.data === false) {
-			result.value = 'Compte non trouvé'; // Message d'erreur
+			result.value = 'Evénement non trouvé'; // Message d'erreur
 		} else {
-			result.value = 'Compte modifié'; // Message de succès ou autre traitement
+			result.value = 'Evénement modifié'; // Message de succès ou autre traitement
 		}
 	} catch (error) {
-		result.value = 'Error updating user: ' + error.message;
+		result.value = 'Error updating event: ' + error.message;
 	}
 };
 
-const deleteUser = async () => {
+const deleteEvent = async () => {
 	result.value = '';
 	try {
-		const response = await authStore.deleteUser(userData.mail);
-		if (response.data === true) {
-			result.value = 'Compte supprimé'; // Message de succès ou autre traitement
+		const response = await calendarStore.deleteEvent(eventData.value.id);
+		if (response.data === 204) {
+			result.value = 'Evénement supprimé'; // Message de succès ou autre traitement
 		} else {
-			result.value = 'Compte non trouvé'; // Message d'erreur
+			result.value = 'Evénement non trouvé'; // Message d'erreur
 		}
 	} catch (error) {
 		result.value = error.message;
@@ -301,61 +287,23 @@ const deleteUser = async () => {
 const reloadSchedule = async () => {
 	await scheduleStore.reloadSchedule();
 };
+
+const handleEventClicked = async (event) => {
+	// Réagir à l'événement personnalisé ici
+	console.log('Événement cliqué dans le composant parent :', event);
+	const found_event = await calendarStore.getEventbyId(event.id);
+	console.log(found_event);
+	eventData.value.id = event.id;
+	eventData.value.groupId = found_event.groupId;
+	eventData.value.title = found_event.title;
+
+	const start = new Date(found_event.start);
+	start.setHours(start.getHours() + 1);
+
+	const end = new Date(found_event.end);
+	end.setHours(end.getHours() + 1);
+
+	eventData.value.start = start.toISOString().slice(0, 16);
+	eventData.value.end = end.toISOString().slice(0, 16);
+};
 </script>
-
-<style scoped>
-/* Styles spécifiques au composant */
-.container {
-	text-align: center;
-	padding: 20px;
-}
-.form-group {
-	margin-bottom: 20px;
-}
-
-.input {
-	width: 40%;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 20px;
-}
-
-.btn-primary {
-	background-color: #007bff;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-}
-
-.btn-primary.btn-active {
-	background-color: #0056b3;
-}
-
-.result-message {
-	background-color: #f2f2f2;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	padding: 10px;
-	text-align: left;
-}
-
-.btn-reload {
-	background: #1abc9c;
-	box-shadow: inset 0 -2px #12ab8d;
-}
-
-.btn-reload:active {
-	top: 1px;
-	box-shadow: none;
-}
-
-.btn-reload .icon-reload {
-	transition: all 0.4s ease-in-out;
-}
-.btn-reload:hover .icon-reload {
-	transform: rotate(360deg) scale(1.2);
-}
-</style>

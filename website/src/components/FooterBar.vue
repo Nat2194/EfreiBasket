@@ -113,6 +113,10 @@
 						</div>
 					</a>
 				</div>
+				<div class="text-sm">
+					<p>Crédits Photos : Efrei Picture Studio</p>
+					<p>Logo par @hao._la</p>
+				</div>
 			</div>
 		</div>
 	</div>
