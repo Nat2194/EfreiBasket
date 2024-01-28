@@ -12,6 +12,8 @@ export class Role {
 
 	roleId!: number;
 
+	//TODO: hiérarchie des rôles pour RBAC, admin on top
+
 	// Propriété UNIQUE, pas 2 rôles avec un même nom
 	title!: string;
 
